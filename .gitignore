@@ -1,0 +1,17 @@
+*.sqlite3
+*.log
+node_modules
+.mvp_transp
+.idea
+__pycache__
+webpack-stats.json
+/assets/bundles/
+/staticfiles
+/mediafiles
+.env
+/.venv
+.coverage
+/cover
+/book-amazon(2000)
+/groundtruth
+/webpages
