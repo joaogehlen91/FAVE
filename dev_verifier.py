@@ -3,9 +3,9 @@
 #   formato de tupla(string, classe).
 #   exemplo: ("a Survey of Multi-objective Sequential decision-making", "Title")
 import re
+import numpy
 
-
-ws_name = '/home/joao/TCC_source/book-amazon-title.txt'
+ws_name = '/home/joao/TCC_source/book-amazon-author.txt'
 
 file = open(ws_name, 'r')
 page = file.readlines()
@@ -19,61 +19,96 @@ def caracteriza(data):
     f = []
     dots = re.compile(r'[.,;:?!]')
     if dots.findall(data):
-        f.append(True)
+        f.append(1)
     else:
-        f.append(False)
+        f.append(0)
 
-    f.append(data[0].isupper())
-    f.append(data.istitle())
+    f.append(int(data[0].isupper()))
+    f.append(int(data.istitle()))
 
-    f.append('.' in data)
-    f.append(',' in data)
-    f.append(';' in data)
-    f.append(':' in data)
-    f.append('?' in data)
-    f.append('!' in data)
+    f.append(int('.' in data))
+    f.append(int(',' in data))
+    f.append(int(';' in data))
+    f.append(int(':' in data))
+    f.append(int('?' in data))
+    f.append(int('!' in data))
 
     cm = re.compile(r'[A-Z]')
-    f.append(True if cm.findall(data) else False)
+    f.append(1 if cm.findall(data) else 0)
 
     num = re.compile(r'\d')
-    f.append(True if num.findall(data) else False)
+    f.append(1 if num.findall(data) else 0)
 
     not_num = re.compile(r'\D')
-    f.append(True if not_num.findall(data) else False)
+    f.append(1 if not_num.findall(data) else 0)
+
+    only_let = re.compile(r'[A-Za-z]')
 
 
     # numerical features
     f.append(len(num.findall(data)))
     f.append(len(not_num.findall(data)))
     f.append(len(data))
-    f.append(len(data.split(' ')))
+
+    words = data.split()
+
+    f.append(len(words))
+    f.append([1 if w[0].isupper() else 0 for w in words].count(1))
+
+    f.append(len(words)/len(data))
+
+    f.append(len(num.findall(data)) / len(data))
+    f.append(len(dots.findall(data)) / len(data))
+    f.append(len(only_let.findall(data)) / len(data))
 
     return f
 
+# funcao que gera o modelo de verificacao a partir da entrada de treinamento
+def model_building(ts):
+    vm = []
+    soma = 0
+    for x in range(21):
+        for y in range(len(ts)):
+            soma += ts[y][1][x]
+
+        media = soma / len(ts)
+        vm.append(media)
+        soma = 0
+
+    return vm
 
 
+# funcao que recebe o modelo de verificacao e um slot não verificado e faz a verificacao
+def verifier(vm, uws):
+    uts = caracteriza(uws[2])
+    print(uws)
+    print(f'uts: {uts}')
+    print(f'vm: {vm}')
+
+    n_uts = numpy.array((uts))
+    n_vm = numpy.array((vm))
+
+    dist = numpy.linalg.norm(n_uts - n_vm)
+    print(f'ditancia euclidiana: {dist}')
+
+
+
+# main
 for line in page[2:]:
     slot_ts = []
     slot_ws = line.replace('\n', '').split('\t')
     fts = caracteriza(slot_ws[2])
-    # print(fts)
     slot_ts.append(slot_ws[0])
     slot_ts.append(fts)
     slot_ts.append("title")
 
-    print(slot_ts)
-
     ts.append(slot_ts)
 
 
-# print(ts)
+vm = model_building(ts)
+
+#uws = [1500, 1, 'as565426354162534162534']
+uws = [1500, 1, "Peter A. Lillback"]
 
 
-
-
-
-
-
-
-#funcao que gera o modelo de verificação(VM)
+verifier(vm, uws)
