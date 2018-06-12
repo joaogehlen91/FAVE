@@ -5,7 +5,7 @@
 import re
 import numpy
 
-ws_name = '/home/joao/TCC_source/book-amazon-author.txt'
+ws_name = '/home/joao/TCC_source/groundtruth/book/book-abebooks-publisher.txt'
 
 file = open(ws_name, 'r')
 page = file.readlines()
@@ -61,6 +61,7 @@ def caracteriza(data):
     f.append(len(dots.findall(data)) / len(data))
     f.append(len(only_let.findall(data)) / len(data))
 
+
     return f
 
 # funcao que gera o modelo de verificacao a partir da entrada de treinamento
@@ -102,13 +103,15 @@ for line in page[2:]:
     slot_ts.append(fts)
     slot_ts.append("title")
 
+    fts.append("title")
+    print(fts)
     ts.append(slot_ts)
 
 
 vm = model_building(ts)
 
 #uws = [1500, 1, 'as565426354162534162534']
-uws = [1500, 1, "Peter A. Lillback"]
+uws = [1500, 1, "8d9s8fu9ads8fu9as8dfu9a8sdfu9s8"]
 
 
 verifier(vm, uws)

@@ -2,7 +2,7 @@ from lxml import html
 import glob
 
 
-for filename in glob.glob('/home/joao/TCC_source/webpages/book/book-abebooks(2000)/0012.htm'):
+for filename in glob.glob('/home/joao/TCC_source/webpages/book/book-abebooks(2000)/*'):
 	#file = open("/home/joao/Downloads/book/book-abebooks(2000)/0001.htm", 'r')
 
 	file = open(filename, 'r')
