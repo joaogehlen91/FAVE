@@ -10,7 +10,6 @@ categorical features:
 - tem ponto de exclamação (!)
 - contem caracteres numericos
 - contem caracteres não numericos
-#- cor da fonte ??
 
 numerical features:
 - numero de caracteres numericos
@@ -18,7 +17,13 @@ numerical features:
 - numero de letras total
 - numero de palavras
 - numero de palavras que começam com letra maiuscula
-- tamanho medio de palavras (numero de palavras / numero de letras total)
+- relacao de palavras por caractere (numero de palavras / numero de letras total)
 - relação de numero por caracter
 - relacao de pontuacao por caracter
 - relação de letra por caracter
+
+
+exemplo para features abaixo = '20 Maple St.'
+- relacao de letras maiusculas por total de letras (2/12)
+- relacao de letras minusculas por total de letras (5/12)
+- tamanho media de palavras (somatorio dos tamanhos das palavras / numero de palavras total) ((2+5+2)/3 = 3)

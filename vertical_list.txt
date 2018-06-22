@@ -1,9 +1,0 @@
-<vertical> <#sites>	<#pages>  <attributes>
-auto         10		17,923		4: model, price, engine, fuel_economy
-book         10		20,000		5: title, author, isbn_13, publisher, publication_date
-camera       10		 5,258		3: model, price, manufacturer
-job          10		20,000		4: title, company, location, date_posted
-movie        10		20,000		4: title, director, genre, mpaa_rating
-nbaplayer    10		 4,405		4: name, team, height, weight
-restaurant   10		20,000		4: name, address, phone, cuisine
-university   10		16,705		4: name, phone, website, type

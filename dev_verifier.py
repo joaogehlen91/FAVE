@@ -4,15 +4,18 @@
 #   exemplo: ("a Survey of Multi-objective Sequential decision-making", "Title")
 import re
 import numpy
+import sys
 
-ws_name = '/home/joao/TCC_source/groundtruth/book/book-abebooks-publisher.txt'
-
+# ws_name = '/home/joao/TCC_source/groundtruth/book/book-amazon-author.txt'
+ws_name = sys.argv[1]
 file = open(ws_name, 'r')
 page = file.readlines()
 
 f = []
 label = ''
 ts = []
+
+out = open('saida_dev_verifier.csv', 'w')
 
 # funcao que caracteriza o Workign-set(WS) e transforma em um Training-Set(TS)
 def caracteriza(data):
@@ -61,6 +64,9 @@ def caracteriza(data):
     f.append(len(dots.findall(data)) / len(data))
     f.append(len(only_let.findall(data)) / len(data))
 
+    f.append([1 if l.isupper() else 0 for l in data].count(1) / len(data))
+    f.append([1 if l.islower() else 0 for l in data].count(1) / len(data))
+    f.append(sum(len(w) for w in words) / len(words))
 
     return f
 
@@ -94,24 +100,30 @@ def verifier(vm, uws):
 
 
 
+
 # main
 for line in page[2:]:
     slot_ts = []
     slot_ws = line.replace('\n', '').split('\t')
     fts = caracteriza(slot_ws[2])
+
     slot_ts.append(slot_ws[0])
     slot_ts.append(fts)
     slot_ts.append("title")
 
-    fts.append("title")
-    print(fts)
+    fts.append(int(sys.argv[2]))
+    out.write(', '.join(str(i) for i in fts))
+    out.write('\n')
+    # print(fts)
     ts.append(slot_ts)
 
 
-vm = model_building(ts)
+out.close()
+
+# vm = model_building(ts)
 
 #uws = [1500, 1, 'as565426354162534162534']
-uws = [1500, 1, "8d9s8fu9ads8fu9as8dfu9a8sdfu9s8"]
+# uws = [1500, 1, "8d9s8fu9ads8fu9as8dfu9a8sdfu9s8"]
 
 
-verifier(vm, uws)
+# verifier(vm, uws)
