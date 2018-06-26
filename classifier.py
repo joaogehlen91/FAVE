@@ -16,7 +16,7 @@ from sklearn.svm import OneClassSVM
 
 
 # data = 'author_and_outlier.csv'
-data = 'engine_all.csv'
+data = 'book_tests/title_book_title_movie.csv'
 dataset = pandas.read_csv(data, header=None)
 
 models = []
@@ -33,7 +33,7 @@ acum_r_knn = 0
 acum_p_knn = 0
 
 for i in range(10):
-    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.1)
+    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.001)
 
     g = GaussianNB()
     # k = KMeans(n_clusters=1)

@@ -3,11 +3,12 @@ categorical features:
 - primeiro caracter em maiusculo (true or false)
 - todas as palavras começam com maiusculo (istitle() do python)
 - tem ponto (.)
-- tem ponto e virgula (;)
 - tem virgula (,)
+- tem ponto e virgula (;)
 - tem dois pontos (:)
 - tem ponto de interrogacao (?)
 - tem ponto de exclamação (!)
+- contem caracteres maiusculos
 - contem caracteres numericos
 - contem caracteres não numericos
 
