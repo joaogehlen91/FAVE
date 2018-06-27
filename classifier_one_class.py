@@ -15,20 +15,20 @@ from sklearn.utils import shuffle
 from sklearn.svm import OneClassSVM
 
 
-tr = 'book_tests/title_book.csv'
-te = 'book_tests/title_book_outlier_cen_3-1.csv'
+tr = 'auto_tests/model_auto.csv'
+te = 'auto_tests/model_auto_outlier_cen4-1.csv'
 tr_dataset = pandas.read_csv(tr, header=None)
 te_dataset = pandas.read_csv(te, header=None)
 
 models = []
 
-X = tr_dataset.values[:19000, 0:24]
+X = tr_dataset.values[:17743, 0:24]
 # Y = tr_dataset.values[:, 24]
 
 # X2 = tr_dataset.values[5000:5258, 0:24]
 
-outlier = te_dataset.values[19000:, 0:24]
-Y = te_dataset.values[19000:, 24]
+outlier = te_dataset.values[17743:, 0:24]
+Y = te_dataset.values[17743:, 24]
 
 print(len(X))
 # print(len(X2))

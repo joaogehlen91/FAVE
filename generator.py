@@ -59,7 +59,7 @@ def caracteriza(data):
     return f
 
 
-for filename in glob.glob('/home/joao/TCC_source/groundtruth/auto/auto-autobytel-engine.txt'):
+for filename in glob.glob('/home/joao/TCC_source/groundtruth/auto/*price.txt'):
     print(filename)
     file = open(filename, 'r')
     page = file.readlines()
