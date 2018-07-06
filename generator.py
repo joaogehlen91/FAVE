@@ -9,29 +9,29 @@ out = open('saida_generator.csv', 'w')
 def caracteriza(data):
     f = []
     dots = re.compile(r'[.,;:?!]')
-    if dots.findall(data):
-        f.append(1)
-    else:
-        f.append(0)
-
-    f.append(int(data[0].isupper()))
-    f.append(int(data.istitle()))
-
-    f.append(int('.' in data))
-    f.append(int(',' in data))
-    f.append(int(';' in data))
-    f.append(int(':' in data))
-    f.append(int('?' in data))
-    f.append(int('!' in data))
+    # if dots.findall(data):
+    #     f.append(1)
+    # else:
+    #     f.append(0)
+    #
+    # f.append(int(data[0].isupper()))
+    # f.append(int(data.istitle()))
+    #
+    # f.append(int('.' in data))
+    # f.append(int(',' in data))
+    # f.append(int(';' in data))
+    # f.append(int(':' in data))
+    # f.append(int('?' in data))
+    # f.append(int('!' in data))
 
     cm = re.compile(r'[A-Z]')
-    f.append(1 if cm.findall(data) else 0)
+    # f.append(1 if cm.findall(data) else 0)
 
     num = re.compile(r'\d')
-    f.append(1 if num.findall(data) else 0)
+    # f.append(1 if num.findall(data) else 0)
 
     not_num = re.compile(r'\D')
-    f.append(1 if not_num.findall(data) else 0)
+    # f.append(1 if not_num.findall(data) else 0)
 
     only_let = re.compile(r'[A-Za-z]')
 
@@ -58,8 +58,12 @@ def caracteriza(data):
 
     return f
 
+# author
+# isbn_13
+# publication_date
+# publisher
 
-for filename in glob.glob('/home/joao/TCC_source/groundtruth/auto/*price.txt'):
+for filename in glob.glob('/home/joao/TCC_source/groundtruth/book/*publisher.txt'):
     print(filename)
     file = open(filename, 'r')
     page = file.readlines()
@@ -69,7 +73,7 @@ for filename in glob.glob('/home/joao/TCC_source/groundtruth/auto/*price.txt'):
 	    slot_ws = line.replace('\n', '').split('\t')
 	    fts = caracteriza(slot_ws[2])
 
-	    fts.append(0) # 1 para target class e 0 para outlier
+	    fts.append(-1) # 1 para target class e 0 ou -1 para outlier
 	    out.write(', '.join(str(i) for i in fts))
 	    out.write('\n')
 	    # print(fts)

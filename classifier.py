@@ -16,7 +16,7 @@ from sklearn.svm import OneClassSVM
 
 
 # data = 'author_and_outlier.csv'
-data = 'auto_tests/model_auto_outlier_cen4.csv'
+data = 'cenario1/supervised/positivos_negativos_FAVE.csv'
 dataset = pandas.read_csv(data, header=None)
 
 models = []
@@ -33,7 +33,7 @@ acum_r_knn = 0
 acum_p_knn = 0
 
 for i in range(10):
-    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.999)
+    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.99)
     print(len(X_train))
 
     g = GaussianNB()
