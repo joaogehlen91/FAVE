@@ -14,79 +14,91 @@ from sklearn.ensemble import IsolationForest
 from sklearn.utils import shuffle
 from sklearn.svm import OneClassSVM
 
+out = open('resultados_classifier_one_class.csv', 'w')
 
-tr = 'auto_tests/model_auto.csv'
-te = 'auto_tests/model_auto_outlier_cen4-1.csv'
+tr = 'cenario4/unsupervised/positivos_FAVE.csv'
+te = 'cenario4/unsupervised/positivos_negativos_FAVE.csv'
 tr_dataset = pandas.read_csv(tr, header=None)
 te_dataset = pandas.read_csv(te, header=None)
 
-models = []
+f = 0
 
-X = tr_dataset.values[:17743, 0:24]
-# Y = tr_dataset.values[:, 24]
+if f == 0:
+    out.write('FAVE\n')
+if f == 12:
+    out.write('MAVE\n')
 
-# X2 = tr_dataset.values[5000:5258, 0:24]
+for i in range(10):
+    X = tr_dataset.values[:17026, f:24]
 
-outlier = te_dataset.values[17743:, 0:24]
-Y = te_dataset.values[17743:, 24]
+    outlier = te_dataset.values[17026:, f:24]
+    Y = te_dataset.values[17026:, 24]
 
-print(len(X))
-# print(len(X2))
-print(len(outlier))
+    print(len(X))
+    print(len(Y))
+    print(len(outlier))
 
-# X, Y = shuffle(X, Y)
+    X = shuffle(X)
+    outlier, Y = shuffle(outlier, Y)
 
+    svm = OneClassSVM()
+    isf = IsolationForest()
 
-X = shuffle(X)
-outlier, Y = shuffle(outlier, Y)
+    svm.fit(X)
+    isf.fit(X)
 
-# X2 = shuffle(X2)
-# outlier = shuffle(outlier)
+    prediction_svm = svm.predict(outlier)
+    prediction_isf = isf.predict(outlier)
 
-# X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2)
-# X2_train, X2_test, y2_train, y2_test = train_test_split(X2, Y2, test_size=0.9)
+    for i in range(len(Y)):
+        Y[i] = Y[i] * -1
 
-# g = GaussianNB()
-k= KMeans(n_clusters=2)
-svm = OneClassSVM()
-isf = IsolationForest()
+    for i in range(len(prediction_svm)):
+        prediction_svm[i] = prediction_svm[i] * -1
 
-# g.fit(X, Y)
-# k.fit(X, Y)
-svm.fit(X)
-isf.fit(X)
-k.fit(X)
+    for i in range(len(prediction_isf)):
+        prediction_isf[i] = prediction_isf[i] * -1
 
-
-# prediction_g = g.predict(X)
-# prediction_k = k.predict(X2)
-prediction_svm = svm.predict(outlier)
-prediction_isf = isf.predict(outlier)
-
-# print(f'% de acertos K: {n_acertos_k_train/len(outlier)}')
-
-print('accuracy:  {:5.4} %'.format(accuracy_score(Y, prediction_svm) * 100))
-print('precision: {:5.4} %'.format(precision_score(Y, prediction_svm) * 100))
-print('recall:    {:5.4} %'.format(recall_score(Y, prediction_svm) * 100))
-
-print('accuracy:  {:5.4} %'.format(accuracy_score(Y, prediction_isf) * 100))
-print('precision: {:5.4} %'.format(precision_score(Y, prediction_isf) * 100))
-print('recall:    {:5.4} %'.format(recall_score(Y, prediction_isf) * 100))
-
-# n_acertos_svm = prediction_svm[prediction_svm == -1].size
-# print(n_acertos_svm)
-# # print(f'% de acertos SVM: {n_acertos_svm_train/len(outlier)}')
-#
-# n_acertos_svm = prediction_svm[prediction_svm == 1].size
-# print(n_acertos_svm)
-# print(f'% de erros SVM: {n_acertos_svm_train/len(outlier)}')
+    acc_svm = accuracy_score(Y, prediction_svm)
+    p_svm = precision_score(Y, prediction_svm)
+    r_svm = recall_score(Y, prediction_svm)
+    f1_svm = f1_score(Y, prediction_svm)
+    print('\nSVM:')
+    print('accuracy:  {:5.4} %'.format(acc_svm * 100))
+    print('precision: {:5.4} %'.format(p_svm * 100))
+    print('recall:    {:5.4} %'.format(r_svm * 100))
+    print('f-measure: {:5.4} %'.format(f1_svm * 100))
+    out.write('SVM')
+    out.write(';')
+    out.write(str(acc_svm).replace('.', ','))
+    out.write(';')
+    out.write(str(p_svm).replace('.', ','))
+    out.write(';')
+    out.write(str(r_svm).replace('.', ','))
+    out.write(';')
+    out.write(str(f1_svm).replace('.', ','))
+    out.write(';')
 
 
-# n_acertos_isf_outlier = prediction_isf_outlier[prediction_isf_outlier == -1].size
-# print(n_acertos_isf_outlier)
-# print(f'% de acertos SVM: {n_acertos_isf_outlier/len(outlier)}')
+    acc_isf = accuracy_score(Y, prediction_isf)
+    p_isf = precision_score(Y, prediction_isf)
+    r_isf = recall_score(Y, prediction_isf)
+    f1_isf = f1_score(Y, prediction_isf)
+    print('\nISF')
+    print('accuracy:  {:5.4} %'.format(acc_isf * 100))
+    print('precision: {:5.4} %'.format(p_isf * 100))
+    print('recall:    {:5.4} %'.format(r_isf * 100))
+    print('f-measure: {:5.4} %'.format(f1_isf * 100))
+    out.write('ISF')
+    out.write(';')
+    out.write(str(acc_isf).replace('.', ','))
+    out.write(';')
+    out.write(str(p_isf).replace('.', ','))
+    out.write(';')
+    out.write(str(r_isf).replace('.', ','))
+    out.write(';')
+    out.write(str(f1_isf).replace('.', ','))
+    out.write(';')
+    out.write('\n')
 
-
-# n_acertos_isf = prediction_isf[prediction_isf == -1].size
-# print(n_acertos_isf)
-# print(f'% de acertos IF: {n_acertos_isf/len(outlier)}')
+out.close()
