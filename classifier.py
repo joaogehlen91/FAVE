@@ -18,7 +18,7 @@ out = open('resultados_classifier.csv', 'w')
 
 
 # data = 'author_and_outlier.csv'
-data = 'cenario5/supervised/positivos_negativos_FAVE.csv'
+data = 'cenario4/supervised/positivos_negativos_FAVE.csv'
 dataset = pandas.read_csv(data, header=None)
 
 models = []
@@ -45,7 +45,7 @@ if f == 12:
 for i in range(10):
     l = []
     # l.append(str(i))
-    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.01)
+    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.9)
     print(len(X_train))
 
     g = GaussianNB()

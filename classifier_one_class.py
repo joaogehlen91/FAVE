@@ -16,12 +16,12 @@ from sklearn.svm import OneClassSVM
 
 out = open('resultados_classifier_one_class.csv', 'w')
 
-tr = 'cenario4/unsupervised/positivos_FAVE.csv'
-te = 'cenario4/unsupervised/positivos_negativos_FAVE.csv'
+tr = 'cenario5/unsupervised/positivos_FAVE.csv'
+te = 'cenario5/unsupervised/positivos_negativos_FAVE.csv'
 tr_dataset = pandas.read_csv(tr, header=None)
 te_dataset = pandas.read_csv(te, header=None)
 
-f = 0
+f = 12
 
 if f == 0:
     out.write('FAVE\n')
@@ -29,10 +29,10 @@ if f == 12:
     out.write('MAVE\n')
 
 for i in range(10):
-    X = tr_dataset.values[:17026, f:24]
+    X = tr_dataset.values[:19800, f:24]
 
-    outlier = te_dataset.values[17026:, f:24]
-    Y = te_dataset.values[17026:, 24]
+    outlier = te_dataset.values[19800:, f:24]
+    Y = te_dataset.values[19800:, 24]
 
     print(len(X))
     print(len(Y))
